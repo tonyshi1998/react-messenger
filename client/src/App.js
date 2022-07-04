@@ -36,19 +36,13 @@ function App() {
           <input
             type="text"
             placeholder="Your Name"
-            onChange={(event) => {
-              //SetUsernameHandler
-              setUsername(event.target.value);
-            }}
+            onChange={setUsernameHandler}
           ></input>
 
           <input
             type="text"
             placeholder="Room ID"
-            onChange={(event) => {
-              //setRoomHandler
-              setRoom(event.target.value);
-            }}
+            onChange={setRoomHandler}
           ></input>
           <button onClick={joinRoom}>Join A Room</button>
         </div>

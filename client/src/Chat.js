@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import key from "weak-key";
 import ScrollToBotton from "react-scroll-to-bottom";
 
 export default function Chat({
@@ -20,15 +21,20 @@ export default function Chat({
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
-  //const setCurrentMessageHandler = (event) => {
-  //  setCurrentMessage(event.target.value);
-  //};
+  const setCurrentMessageHandler = (event) => {
+    setCurrentMessage(event.target.value);
+  };
+
+  const enterHandler = (event) => {
+    event.key === "Enter" && sendMessage();
+  };
 
   const sendMessage = async () => {
     if (currentMessage !== "") {
       const messageData = {
         room: room,
         author: username,
+        key: room + username + currentMessage,
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +
@@ -58,6 +64,7 @@ export default function Chat({
           {messageList.map((messageContent) => {
             return (
               <div
+                key={messageContent.key}
                 className={msg}
                 id={username === messageContent.author ? you : other}
               >
@@ -80,12 +87,8 @@ export default function Chat({
           type="text"
           value={currentMessage}
           placholder="Hi..."
-          onChange={(event) => {
-            setCurrentMessage(event.target.value);
-          }}
-          onKeyPress={(event) => {
-            event.key === "Enter" && sendMessage();
-          }}
+          onChange={setCurrentMessageHandler}
+          onKeyPress={enterHandler}
         ></input>
         <button onClick={sendMessage}>Send</button>
       </div>
